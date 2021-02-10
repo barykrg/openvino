@@ -12,16 +12,16 @@ Helps optimizations of deep learning models from a framework and deployment usin
 
 * Pull docker image from official openVINO docker repository
 
-![Docker Pull](https://github.com/barykrg/openvino/tree/master/media/pullimage.png)
+![Docker Pull](media/pullimage.png)
 
 ## Create developement environment
 
 * Click on developement environment
-![step1](https://github.com/barykrg/openvino/tree/master/media/step1.png)
+![step1](media/step1.png)
 * Select folder directory to use as workspace]
-![step2](https://github.com/barykrg/openvino/tree/master/media/step2.png)
+![step2](media/step2.png)
 * Folder which is selected is used as workspace and is mapped to the folder myDir inside the container
-![step3](https://github.com/barykrg/openvino/tree/master/media/step3.png)
+![step3](media/step3.png)
 
 ## Run Demo
 
