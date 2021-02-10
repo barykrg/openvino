@@ -1,0 +1,111 @@
+{
+	"name": "openvino",
+	"displayName": "openVINO",
+	"description": "openVino dockerized environment for development",
+	"publisher": "intel-openvino",
+	"version": "0.0.3",
+	"license": "intel",
+	"engines": {
+		"vscode": "^1.52.0"
+	},
+	"keywords": ["intel","openvino" , "Open Visual Inference and Neural Network Optimization"],
+	"categories": [
+		"Machine Learning" , "Visualization"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id":"openvino",
+					"title": "openVino",
+					"icon": "icons/openvino.svg"
+				}
+			]
+		},
+		"views": {
+			"openvino":[
+				{
+					"id": "openvinofunctions",
+					"name":"Click Functions",
+					"icon": "icons/openvino.svg"
+				}
+			]
+		},
+		"menus": {
+			"view/item/context": [
+				{
+					"command": "openvino.openvinopull",
+					"when": "view==openvinofunctions && viewItem==PullImage",
+					"group": "inline"
+				},
+				{
+					"command": "openvino.rundemo1",
+					"when": "view==openvinofunctions && viewItem==demo1",
+					"group": "inline"
+					
+				},
+				{
+					"command": "openvino.rundemo2",
+					"when": "view==openvinofunctions && viewItem==demo2",
+					"group": "inline"
+				},
+				{
+					"command": "openvino.runandmount",
+					"when": "view==openvinofunctions && viewItem==RunImage",
+					"group": "inline"
+				}
+			]
+		},	
+		"commands": [
+			{
+				"command": "openvino.openvinopull",
+				"title": "Get openVino image",
+				"category": "openVino",
+				"icon":"icons/pullopenvino1.svg"
+			},
+			{
+				"command": "openvino.rundemo1",
+				"title": "Demo1",
+				"category": "openVino",
+				"icon":"icons/play1.svg"
+			},
+			{
+				"command": "openvino.rundemo2",
+				"title": "Demo2",
+				"category": "openVino",
+				"icon":"icons/play1.svg"
+			},
+			{
+				"command": "openvino.runandmount",
+				"title": "Create a developement environment",
+				"category": "openVino",
+				"icon":"icons/setup1.svg"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.52.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.4",
+		"@types/node": "^12.11.7",
+		"eslint": "^7.15.0",
+		"@typescript-eslint/eslint-plugin": "^4.9.0",
+		"@typescript-eslint/parser": "^4.9.0",
+		"glob": "^7.1.6",
+		"mocha": "^8.1.3",
+		"typescript": "^4.1.2",
+		"vscode-test": "^1.4.1"
+	}
+}
