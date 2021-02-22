@@ -30,12 +30,12 @@
 			"openvino":[
 				{
 					"id": "openvinofunctions",
-					"name":"Click Functions",
-					"icon": "icons/openvino.svg"
+					"name":"Click Functions"
 				}
 			]
 		},
 		"menus": {
+			
 			"view/item/context": [
 				{
 					"command": "openvino.openvinopull",
@@ -57,7 +57,18 @@
 					"command": "openvino.runandmount",
 					"when": "view==openvinofunctions && viewItem==RunImage",
 					"group": "inline"
+				},
+				{
+					"command": "openvino.create",
+					"when": "view==openvinofunctions && viewItem==Samples",
+					"group": "inline"
+				},
+				{
+					"command": "openvino.readme",
+					"when": "view==openvinofunctions && viewItem==Document",
+					"group":"inline"
 				}
+				
 			]
 		},	
 		"commands": [
@@ -84,6 +95,16 @@
 				"title": "Create a developement environment",
 				"category": "openVino",
 				"icon":"icons/setup1.svg"
+			},
+			{
+				"command": "openvino.create",
+				"title": "create",
+				"icon":"$(add)"
+			},
+			{
+				"command": "openvino.readme",
+				"title": "README",
+				"icon":"$(globe)"
 			}
 		]
 	},

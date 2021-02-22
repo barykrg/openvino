@@ -9,24 +9,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.runandmount = exports.rundemo2 = exports.rundemo1 = exports.openvinopull = exports.checkFunction = exports.deactivate = void 0;
+exports.runandmount = exports.rundemo2 = exports.rundemo1 = exports.openvinopull = exports.readme = exports.checkFunction = exports.create = void 0;
 const child = require("child_process");
 const vscode = require("vscode");
-function deactivate() {
-    child.exec(`docker rm -f $(docker pa -a -q)`);
+function create(sample) {
+    //console.log(sample.parent);
+    //vscode.window.showInformationMessage(sample.label);
+    child.exec(`docker exec work cp -r /opt/intel/openvino/inference_engine/samples/${sample.parent}/${sample.label} /opt/intel/openvino/myDir/${sample.parent}`, (error) => {
+        if (error) {
+            vscode.window.showErrorMessage("Please create development environment first");
+            return;
+        }
+    });
 }
-exports.deactivate = deactivate;
+exports.create = create;
 function checkFunction() {
     child.exec('docker info', (error, stdout, stderr) => __awaiter(this, void 0, void 0, function* () {
         if (error) {
-            let choose = yield vscode.window.showErrorMessage("Please install docker on your system.\n Do you want to learn how to install and setup docker on your system?", "Yes", "No");
-            if (choose === "Yes") {
-                vscode.env.openExternal(vscode.Uri.parse("https://docs.docker.com/engine/install/"));
-            }
+            vscode.window.showErrorMessage("Please install docker on your system.\n Do you want to learn how to install and setup docker on your system?", "Yes", "No")
+                .then((choose) => {
+                if (choose === "Yes") {
+                    vscode.env.openExternal(vscode.Uri.parse("https://docs.docker.com/engine/install/"));
+                }
+            })
+                .then(undefined => { return; });
+            return;
         }
     }));
 }
 exports.checkFunction = checkFunction;
+function readme() {
+    vscode.env.openExternal(vscode.Uri.parse("https://docs.openvinotoolkit.org/latest/documentation.html"));
+}
+exports.readme = readme;
 function openvinopull() {
     child.exec('docker pull openvino/ubuntu18_data_dev', (error, stdout, stderr) => __awaiter(this, void 0, void 0, function* () {
         if (error) {
@@ -49,18 +64,27 @@ function rundemo2() {
     term.sendText('docker run -it -u 0 --rm openvino/ubuntu18_data_dev  /bin/bash -c "apt update && apt install sudo && deployment_tools/demo/demo_squeezenet_download_convert_run.sh -d CPU -sample-options -no_show"', true);
 }
 exports.rundemo2 = rundemo2;
-function runandmount() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const folder = yield vscode.window.showOpenDialog({ canSelectFolders: true });
-        if (folder) {
-            let folderpath = folder[0].fsPath;
-            vscode.workspace.updateWorkspaceFolders(0, 0, { uri: vscode.Uri.file(folderpath) });
-            let term = vscode.window.createTerminal("Docker Shell");
-            term.show(true);
-            term.sendText(`docker rm -f work`);
-            term.sendText(`docker run -it --name work -u 0 --rm --mount type=bind,source=${folderpath},target=/opt/intel/openvino/myDir openvino/ubuntu18_data_dev`, true);
+function runandmount(sampleData) {
+    vscode.window.showOpenDialog({ canSelectFolders: true })
+        .then(folder => {
+        if (folder === undefined) {
+            vscode.window.showErrorMessage("Error while opening a file");
+            return;
         }
-    });
+        let folderpath = folder[0].fsPath;
+        //vscode.window.showInformationMessage(folderpath);
+        vscode.workspace.updateWorkspaceFolders(0, 0, { uri: vscode.Uri.file(folderpath) });
+        let term = vscode.window.createTerminal("Docker Shell");
+        term.show(true);
+        term.sendText(`docker rm -f work`);
+        term.sendText(`docker run -it --name work -u 0 --rm --mount type=bind,source="${folderpath}",target=/opt/intel/openvino/myDir openvino/ubuntu18_data_dev`, true);
+        //sampleData.cSamples();
+        //sampleData.cppSamples();
+        //sampleData.pythonSamples();
+        //sampleData.refresh();
+    })
+        .then(undefined, err => { vscode.window.showErrorMessage("Error while opening a file"); return; });
+    console.log("Test!!");
 }
 exports.runandmount = runandmount;
 //# sourceMappingURL=functionality.js.map
